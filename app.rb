@@ -12,9 +12,9 @@ configure :development do
   BetterErrors.application_root = File.expand_path('..', __FILE__)
 end
 
+enable :sessions
 cookbook = Cookbook.new("recipes.csv")
 service = Service.new
-online_recipe = []
 
 get '/' do
   @recipes = cookbook.all
@@ -49,6 +49,7 @@ end
 post '/search' do
   # binding.pry
   @online_recipe = service.search_online(params[:keyword])
+  session[:online_recipe] =  @online_recipe
   erb :show_search_results
 end
 
@@ -71,9 +72,10 @@ get '/unmark/:index' do
 end
 
 post '/import_recipe' do
+  search_results = session[:online_recipe]
   # binding.pry
   # recipe_url = params[:]
-  data = service.import_online({url: params[:url], title: params[:title]})
+  data = service.import_online(search_results[params[:index].to_i])
   recipe = Recipe.new(data[0], data[1])
   cookbook.add_recipe(recipe)
   redirect "/"
