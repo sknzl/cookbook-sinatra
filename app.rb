@@ -18,6 +18,10 @@ get '/' do
   erb :index
 end
 
+get '/new' do
+  erb :new
+end
+
 get '/about' do
   erb :about
 end
@@ -27,3 +31,10 @@ get '/team/:username' do
   "The username is #{params[:username]}"
 end
 
+# get '/add?name=:name&description=:description' do
+post '/add' do
+  # binding.pry
+  recipe = Recipe.new(params[:name], params[:description])
+  cookbook.add_recipe(recipe)
+  redirect "/"
+end
