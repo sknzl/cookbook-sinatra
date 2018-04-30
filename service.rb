@@ -26,10 +26,11 @@ class Service
     path = BASEIMPORT + search_result[:url]
     html_file = open(path).read
     html_doc = Nokogiri::HTML(html_file)
-    cooktime = html_doc.search(".cooktime").text
+    # cooktime = html_doc.search(".cooktime").text
     description = html_doc.search(".m_content_recette_todo").text.strip
     title = search_result[:title]
-    [title, description, cooktime]
+    # [title, description, cooktime]
+    [title, description]
   end
 
 end

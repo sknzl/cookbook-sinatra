@@ -14,6 +14,7 @@ end
 
 cookbook = Cookbook.new("recipes.csv")
 service = Service.new
+online_recipe = []
 
 get '/' do
   @recipes = cookbook.all
@@ -47,7 +48,7 @@ end
 
 post '/search' do
   # binding.pry
-  @recipes = service.search_online(params[:keyword])
+  @online_recipe = service.search_online(params[:keyword])
   erb :show_search_results
 end
 
@@ -68,3 +69,14 @@ get '/unmark/:index' do
   cookbook.unmark_recipe(params[:index].to_i)
   redirect "/"
 end
+
+post '/import_recipe' do
+  # binding.pry
+  # recipe_url = params[:]
+  data = service.import_online({url: params[:url], title: params[:title]})
+  recipe = Recipe.new(data[0], data[1])
+  cookbook.add_recipe(recipe)
+  redirect "/"
+end
+
+

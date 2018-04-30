@@ -1,9 +1,17 @@
 First 5 search results from letscookfrench.com
 <p> </p>
 <ul>
-  <% @recipes.each_with_index do |element, index| %>
+  <% @online_recipe.each_with_index do |element, index| %>
     <li>
-      <a href=""><%= element[:title] %></a>
+      index: <%= index %> <%= element[:title] %>
     </li>
   <% end %>
 </ul>
+<p> Type value of recipe to add</p>
+<form action="/import_recipe" method="POST">
+ <br>
+  <input type="text" name="index" value="index"><br>
+  <input type ="hidden" name="title" value= <%=@online_recipe[0][:title]%> >
+  <input type ="hidden" name="url" value= <%=@online_recipe[0][:url]%> >
+  <input type="submit" value="Submit">
+</form>
