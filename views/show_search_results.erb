@@ -1,0 +1,9 @@
+First 5 search results from letscookfrench.com
+<p> </p>
+<ul>
+  <% @recipes.each_with_index do |element, index| %>
+    <li>
+      <a href=""><%= element[:title] %></a>
+    </li>
+  <% end %>
+</ul>

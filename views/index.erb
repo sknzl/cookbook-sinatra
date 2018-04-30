@@ -3,10 +3,19 @@
 <ul>
   <% @recipes.each_with_index do |element, index| %>
     <li>
-      <h3> <%= element.name %> </h3>
-      <p> <%= element.description %> </p>
-      <a href="/delete/<%= index %>">Destroy</a>
+      <h3>
+      <%= element.name %>
+      </h3>
+      <p> <%= element.state ? "Status: Read" : "Status: Not read" %>
+      </p>
+      <p> Description: <%= element.description %> </p>
+      <p><a href="/delete/<%= index %>">Destroy</a></p>
+      <p><a href="/mark/<%= index %>">Mark as read</a></p>
+      <p><a href="/unmark/<%= index %>">Mark as unread</a></p>
     </li>
   <% end %>
 </ul>
 <a href="/new">Create a new recipe</a>
+<p>
+<a href="/import">Import a recipe from letscookfrench.com</a>
+</p>

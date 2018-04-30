@@ -6,8 +6,13 @@ class Cookbook
     @csv_file_path = csv_file_path
     @recipes = []
     CSV.foreach(csv_file_path) do |row|
+      if row[2] == 'true'
+        state = true
+      elsif row[2] == 'false'
+        state = false
+      end
       # Here, row is an array of columns
-      @recipes << Recipe.new(row[0], row[1])
+      @recipes << Recipe.new(row[0], row[1], state)
     end
   end
 
@@ -31,4 +36,27 @@ class Cookbook
       end
     end
   end
+
+  def mark_recipe(post_index)
+    recipe = @recipes[post_index]
+    recipe.state = true
+    @recipes[post_index] = recipe
+    CSV.open(@csv_file_path, "w") do |csv|
+      @recipes.each do |element|
+        csv << [element.name, element.description, element.state]
+      end
+    end
+  end
+
+  def unmark_recipe(post_index)
+    recipe = @recipes[post_index]
+    recipe.state = false
+    @recipes[post_index] = recipe
+    CSV.open(@csv_file_path, "w") do |csv|
+      @recipes.each do |element|
+        csv << [element.name, element.description, element.state]
+      end
+    end
+  end
+
 end

@@ -1,5 +1,6 @@
 require_relative "cookbook"
 require_relative "recipe"
+require_relative "service"
 require "sinatra"
 require "sinatra/reloader" if development?
 require "pry-byebug"
@@ -12,6 +13,7 @@ configure :development do
 end
 
 cookbook = Cookbook.new("recipes.csv")
+service = Service.new
 
 get '/' do
   @recipes = cookbook.all
@@ -20,6 +22,10 @@ end
 
 get '/new' do
   erb :new
+end
+
+get '/import' do
+  erb :import
 end
 
 get '/about' do
@@ -39,8 +45,26 @@ post '/add' do
   redirect "/"
 end
 
+post '/search' do
+  # binding.pry
+  @recipes = service.search_online(params[:keyword])
+  erb :show_search_results
+end
+
 get '/delete/:index' do
   # binding.pry
   cookbook.remove_recipe(params[:index].to_i)
+  redirect "/"
+end
+
+get '/mark/:index' do
+  # binding.pry
+  cookbook.mark_recipe(params[:index].to_i)
+  redirect "/"
+end
+
+get '/unmark/:index' do
+  # binding.pry
+  cookbook.unmark_recipe(params[:index].to_i)
   redirect "/"
 end
