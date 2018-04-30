@@ -38,3 +38,9 @@ post '/add' do
   cookbook.add_recipe(recipe)
   redirect "/"
 end
+
+get '/delete/:index' do
+  # binding.pry
+  cookbook.remove_recipe(params[:index].to_i)
+  redirect "/"
+end

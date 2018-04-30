@@ -23,6 +23,7 @@ class Cookbook
   end
 
   def remove_recipe(recipe_index)
+    # binding.pry
     @recipes.delete_at(recipe_index)
     CSV.open(@csv_file_path, "w") do |csv|
       @recipes.each do |element|
